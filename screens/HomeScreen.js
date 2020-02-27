@@ -1,198 +1,132 @@
-import * as WebBrowser from 'expo-web-browser';
 import React from 'react';
 import {
-  Image,
-  Platform,
   ScrollView,
-  StyleSheet,
   Text,
-  TouchableOpacity,
   View,
+  ImageBackground,
+  TouchableOpacity,
 } from 'react-native';
+import styled from 'styled-components/native';
+import { FontAwesome } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
-import { MonoText } from '../components/StyledText';
+import heroBg from '../assets/images/heropizza.jpg';
+import Product from '../components/Product';
+import Title from '../components/Title';
+import Subtitle from '../components/Subtitle';
+
+const Container = styled.View``;
+const Background = styled.View`
+  background-color: #e5293e;
+  padding: 40px 15px;
+  height: 290;
+`;
+const Heading = styled.Text`
+  font-size: 30;
+  font-weight: 900;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 25;
+`;
+const Hero = styled.View`
+  height: 230;
+  display: flex;
+  justify-content: flex-end;
+  padding: 15px;
+`;
+const OrderNow = styled.View`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: #fff;
+  border-radius: 10;
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 7px 18px;
+`;
+const Detail = styled.View`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-right: 25;
+`;
+const Flexleft = styled.View`
+  padding: 5px 10px;
+`;
+const Flexright = styled.View`
+  background-color: #e5293e;
+  width: 30%;
+  text-align: center;
+  border-top-right-radius: 10;
+  border-bottom-right-radius: 10;
+  padding: 10px 0px;
+`;
+const Products = styled.View`
+  padding: 55px 15px 10px;
+`;
+const Scroll = styled.View`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
 
 export default function HomeScreen() {
   return (
-    <View style={styles.container}>
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={styles.contentContainer}>
-        <View style={styles.welcomeContainer}>
-          <Image
-            source={
-              __DEV__
-                ? require('../assets/images/robot-dev.png')
-                : require('../assets/images/robot-prod.png')
-            }
-            style={styles.welcomeImage}
-          />
-        </View>
-
-        <View style={styles.getStartedContainer}>
-          <DevelopmentModeNotice />
-
-          <Text style={styles.getStartedText}>Get started by opening</Text>
-
-          <View
-            style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
-            <MonoText>screens/HomeScreen.js</MonoText>
-          </View>
-
-          <Text style={styles.getStartedText}>
-            Change this text and your app will automatically reload.
-          </Text>
-        </View>
-
-        <View style={styles.helpContainer}>
-          <TouchableOpacity onPress={handleHelpPress} style={styles.helpLink}>
-            <Text style={styles.helpLinkText}>
-              Help, it didn’t automatically reload!
-            </Text>
-          </TouchableOpacity>
-        </View>
+    <Container>
+      <Background>
+        <Heading>HUNGRY KYA!</Heading>
+        <ImageBackground
+          source={heroBg}
+          style={{ width: '100%', height: 230 }}
+          imageStyle={{ borderRadius: 10 }}
+        >
+          <Hero>
+            <OrderNow>
+              <Flexleft>
+                <Title>Seafood pesto</Title>
+                <Subtitle>Pepperoni Pizza beside.</Subtitle>
+                <Detail>
+                  <View>
+                    <Text>
+                      <FontAwesome name="cutlery" size={12} color="grey" />{' '}
+                      <Subtitle>Pizza </Subtitle>
+                    </Text>
+                  </View>
+                  <View>
+                    <Text>
+                      <Ionicons name="md-alarm" size={12} color="grey" />{' '}
+                      <Subtitle>20 Mins</Subtitle>
+                    </Text>
+                  </View>
+                </Detail>
+              </Flexleft>
+              <Flexright>
+                <TouchableOpacity>
+                  <Title center white>
+                    Order Now
+                  </Title>
+                </TouchableOpacity>
+              </Flexright>
+            </OrderNow>
+          </Hero>
+        </ImageBackground>
+      </Background>
+      <Products>
+        <Title>Popular</Title>
+      </Products>
+      <ScrollView style={{ height: 220 }} showsVerticalScrollIndicator={false}>
+        <Scroll>
+          <Product />
+          <Product />
+          <Product />
+          <Product />
+          <Product />
+          <Product />
+        </Scroll>
       </ScrollView>
-
-      <View style={styles.tabBarInfoContainer}>
-        <Text style={styles.tabBarInfoText}>
-          This is a tab bar. You can edit it in:
-        </Text>
-
-        <View
-          style={[styles.codeHighlightContainer, styles.navigationFilename]}>
-          <MonoText style={styles.codeHighlightText}>
-            navigation/MainTabNavigator.js
-          </MonoText>
-        </View>
-      </View>
-    </View>
+    </Container>
   );
 }
 
 HomeScreen.navigationOptions = {
   header: null,
 };
-
-function DevelopmentModeNotice() {
-  if (__DEV__) {
-    const learnMoreButton = (
-      <Text onPress={handleLearnMorePress} style={styles.helpLinkText}>
-        Learn more
-      </Text>
-    );
-
-    return (
-      <Text style={styles.developmentModeText}>
-        Development mode is enabled: your app will be slower but you can use
-        useful development tools. {learnMoreButton}
-      </Text>
-    );
-  } else {
-    return (
-      <Text style={styles.developmentModeText}>
-        You are not in development mode: your app will run at full speed.
-      </Text>
-    );
-  }
-}
-
-function handleLearnMorePress() {
-  WebBrowser.openBrowserAsync(
-    'https://docs.expo.io/versions/latest/workflow/development-mode/'
-  );
-}
-
-function handleHelpPress() {
-  WebBrowser.openBrowserAsync(
-    'https://docs.expo.io/versions/latest/workflow/up-and-running/#cant-see-your-changes'
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  developmentModeText: {
-    marginBottom: 20,
-    color: 'rgba(0,0,0,0.4)',
-    fontSize: 14,
-    lineHeight: 19,
-    textAlign: 'center',
-  },
-  contentContainer: {
-    paddingTop: 30,
-  },
-  welcomeContainer: {
-    alignItems: 'center',
-    marginTop: 10,
-    marginBottom: 20,
-  },
-  welcomeImage: {
-    width: 100,
-    height: 80,
-    resizeMode: 'contain',
-    marginTop: 3,
-    marginLeft: -10,
-  },
-  getStartedContainer: {
-    alignItems: 'center',
-    marginHorizontal: 50,
-  },
-  homeScreenFilename: {
-    marginVertical: 7,
-  },
-  codeHighlightText: {
-    color: 'rgba(96,100,109, 0.8)',
-  },
-  codeHighlightContainer: {
-    backgroundColor: 'rgba(0,0,0,0.05)',
-    borderRadius: 3,
-    paddingHorizontal: 4,
-  },
-  getStartedText: {
-    fontSize: 17,
-    color: 'rgba(96,100,109, 1)',
-    lineHeight: 24,
-    textAlign: 'center',
-  },
-  tabBarInfoContainer: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    ...Platform.select({
-      ios: {
-        shadowColor: 'black',
-        shadowOffset: { width: 0, height: -3 },
-        shadowOpacity: 0.1,
-        shadowRadius: 3,
-      },
-      android: {
-        elevation: 20,
-      },
-    }),
-    alignItems: 'center',
-    backgroundColor: '#fbfbfb',
-    paddingVertical: 20,
-  },
-  tabBarInfoText: {
-    fontSize: 17,
-    color: 'rgba(96,100,109, 1)',
-    textAlign: 'center',
-  },
-  navigationFilename: {
-    marginTop: 5,
-  },
-  helpContainer: {
-    marginTop: 15,
-    alignItems: 'center',
-  },
-  helpLink: {
-    paddingVertical: 15,
-  },
-  helpLinkText: {
-    fontSize: 14,
-    color: '#2e78b7',
-  },
-});
